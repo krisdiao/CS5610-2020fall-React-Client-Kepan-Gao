@@ -66,7 +66,7 @@ class CourseListComponent extends React.Component {
                     <button className="btn btn-danger pull-right"><i className="fa fa-plus" aria-hidden="true"></i></button>
                 </h1>
                 <div>
-                    <table className="table">
+                    <table className="table table-hover">
                         <thread>
                             <tr>
                                 <th>Title</th>
