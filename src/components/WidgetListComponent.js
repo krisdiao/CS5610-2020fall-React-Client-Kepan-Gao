@@ -1,43 +1,81 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
+import {connect} from "react-redux";
+import {createWidget,deleteWidget,updateWidget,editWidget,okWidget} from "../actions/widgetActions";
+import widgetReducer from "../reducers/widgetReducer";
 
-export default class WidgetListComponent extends React.Component{
-    render() {
-        return(
-            <div>
-                <br/>
-                <h3>Heading Widgets</h3>
-
-                <span className="pull-right">
-                                <a href="#" className="btn btn-warning"><i className="fa fa-arrow-up"></i></a>
-                                <a href="#" className="btn btn-warning"><i className="fa fa-arrow-down"></i></a>
-                                <select>
-                                    <option>Heading</option>
-                                    <option>Slides</option>
-                                    <option>Videos</option>
-                                    <option>Documents</option>
-                                </select>
-                                <a href="#" className="btn btn-danger"><i className="fa fa-times-circle"></i></a>
+const WidgetList = ({
+                        widgets=[],
+                        createWidget,
+                        deleteWidget,
+                        updateWidget,
+                        editWidget,
+                        okWidget}) =>
+    <div>
+        <h3>Widgets</h3>
+        <ul className="nav nav-pills">
+            {
+                widgets.map(widget =>
+                <li className="nav-item">
+                    {
+                        widget.editing &&
+                        <span>
+                            <input className= "form-control"
+                                onChange={(event) => updateWidget({
+                                    ...widget,
+                                    name:event.target.value
+                                })}
+                                value={widget.name}/>
+                            <button
+                                className="btn btn-success"
+                                onClick={()=> okWidget(widget)}>
+                            <i className="fa fa-check" aria-hidden="true"></i>
+                            </button>
                         </span>
-                <br/>
 
-                <br/>
-                <div>
-                    <input className="form-control" placeholder="Heading text"></input>
-                        <br/>
-                        <select className="form-control">
-                            <option>Heading 1</option>
-                            <option>Heading 2</option>
-                            <option>Heading 3</option>
-                            <option>Heading 4</option>
-                        </select>
-                        <br/>
-                    <input className="form-control" placeholder="Widget name"></input>
+                    }
+                    {
+                        !widget.editing &&
+                            <span>
+                                {widget.name}
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={()=> editWidget(widget)}>
+                                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </span>
+                    }
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => deleteWidget(widget) }>
+                        <i className="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                </li>
+                )
+            }
+        </ul>
 
-                </div>
-                <h3>Preview</h3>
-                <h1>Heading text</h1>
-            </div>
-        )
-    }
-}
+        <button  className="btn btn-primary pull-right" onClick={createWidget}>
+            <i className="fa fa-plus" aria-hidden="true"></i>
+        </button>
+
+    </div>
+
+
+const stateToPropertyMapper =(state) =>({
+    widgets: state.widgetReducer.widgets
+})
+
+
+const propertyToDispatchMapper = (dispatch) => ({
+    deleteWidget:(widget) => deleteWidget(dispatch,widget),
+    createWidget:() => createWidget(dispatch),
+    updateWidget:(widget) => updateWidget(dispatch,widget),
+    editWidget:(widget) => editWidget(dispatch,widget),
+    okWidget:(widget) => okWidget(dispatch,widget),
+})
+
+
+
+export default connect( stateToPropertyMapper,propertyToDispatchMapper)(WidgetList)
+
