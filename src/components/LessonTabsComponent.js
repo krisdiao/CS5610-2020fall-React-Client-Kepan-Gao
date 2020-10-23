@@ -8,8 +8,8 @@ import moduleService from "../services/ModuleService";
 
 const LessonTabs = (
     {
-        course={},
-        moduleId=[],
+        course,
+        moduleId,
         lessons=[],
         createLessonForModule,
         deleteLesson,
@@ -28,13 +28,12 @@ const LessonTabs = (
                 lessons.map(lesson =>
                         <li key={lesson._id}
                             className="nav-item">
-                            <a class="nav-link ">
+                            <Link to={`/edit/${course._id}/modules/${moduleId}/lessons/${lesson._id}`}
+                                  class="nav-link ">
                             {
                             !lesson.editing &&
                             <span>
-                                <Link to={`/edit/${course._id}/modules/${module._id}/lessons/${lesson._id}`}>
-                                        {lesson.title}
-                                </Link>
+                                {lesson.title}
                                 <button
                                     className="btn btn-primary"
                                     onClick={() => edit(lesson) }>
@@ -64,21 +63,22 @@ const LessonTabs = (
                                 onClick={() => deleteLesson(lesson._id)}>
                                 <i className="fa fa-times"></i>
                             </button>
-                            </a>
+                            </Link>
                         </li>
                 )}
-        <span className="pull-right form-inline">
-            <button
-                className="btn btn-primary"
-                onClick={() => createLessonForModule(moduleId)}>
-            <i className="fa fa-plus" aria-hidden="true"></i>
-        </button>
-        </span>
-        <br/>
+                <span className="pull-right form-inline">
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => createLessonForModule(moduleId)}>
+                    <i className="fa fa-plus" aria-hidden="true"></i>
+                    </button>
+                </span>
+                <br/>
         </ul>
     </div>
 
 const stateToPropertyMapper = (state) => ({
+    course:state.courseReducer.course,
     lessons: state.lessonReducer.lessons,
     moduleId: state.lessonReducer.moduleId
 })

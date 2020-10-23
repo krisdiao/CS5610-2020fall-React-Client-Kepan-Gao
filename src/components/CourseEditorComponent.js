@@ -17,7 +17,7 @@ class CourseEditorComponent extends React.Component{
         const courseId = this.props.match.params.courseId
         const moduleId = this.props.match.params.moduleId
         const lessonId = this.props.match.params.lessonId
-        const topicId = this.props.match.params.topicId
+        // const topicId = this.props.match.params.topicId
 
         this.props.findCourseById(courseId)
         this.props.findModulesForCourse(courseId)
@@ -31,19 +31,21 @@ class CourseEditorComponent extends React.Component{
         if(lessonId) {
             this.props.findTopicsForLesson(lessonId)
         }
-
+        // if(topicId) {
+        //     this.props.findTopicsForLesson(topicId)
+        // }
 
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
+        const courseId = this.props.match.params.courseId
         const moduleId = this.props.match.params.moduleId
+        const lessonId = this.props.match.params.lessonId
         if(moduleId !== prevProps.match.params.moduleId) {
             if(moduleId){
                 this.props.findLessonsForModule(moduleId)
             }
         }
-
-        const lessonId = this.props.match.params.lessonId
         if(lessonId !== prevProps.match.params.lessonId){
             if(lessonId){
                 this.props.findTopicsForLesson(lessonId)

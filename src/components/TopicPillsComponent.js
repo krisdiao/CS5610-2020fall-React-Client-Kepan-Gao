@@ -3,122 +3,132 @@ import "bootstrap/dist/css/bootstrap.css";
 import {connect} from "react-redux";
 import topicService from "../services/TopicService";
 import topicReducer from "../reducers/topicReducer";
+import {Link} from "react-router-dom";
+import moduleService from "../services/ModuleService";
 
 const TopicPills = (
     {
-        lessonId,
+        course,
+        moduleId,
         topics=[],
-        createTopicForLesson,
+        lessonId,
+        createTopic,
         deleteTopic,
-        updateTopic
+        updateTopic,
+        edit,
+        ok
     }) =>
     <div>
-        <h3>Topics</h3>
+        <h3>Topics({lessonId})</h3>
         <ul className="nav nav-tabs">
             {
                 topics.map(topic =>
-                    <li key={topic._id} className="nav-item">
-                        <a class="nav-link ">
-                            {topic.title}
-                            <button
-                                className="btn btn-danger"
-                                onClick={() => deleteTopic(topic._id)}>
-                                <i className="fa fa-times"></i>
-                            </button>
+                    <li
+                        key={topic._id}
+                        className="nav-item">
+                        <Link to ={`/edit/${course._id}/modules/${moduleId}/lessons/${lessonId}`}
+                              class="nav-link ">
 
                             {
                                 !topic.editing &&
                             <span>
-                            <button
-                                className="btn btn-primary"
-                                onClick={() =>
-                                    updateTopic({...topic, editing: true})}>
-                                <i className="fa fa-pencil"></i>
-                            </button>
+                                {topic.title}
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => edit(topic)}>
+                                    <i className="fa fa-pencil"></i>
+                                </button>
 
                             </span>
                             }
                             {
                                 topic.editing &&
                             <span>
+
+                                <input
+                                className= "form-control"
+                                onChange={(event)=> updateTopic({
+                                    ...topic,
+                                    title:event.target.value
+                                })}
+                                value={topic.title}/>
                                 <button
-                                    className="btn btn-success"
-                                    onClick={() =>
-                                        updateTopic({...topic, editing: false})}>
+                                className="btn btn-success"
+                                onClick={() => ok(topic)}>
                                 <i className="fa fa-check"></i>
                                 </button>
-                            <input
-                                value={topic.title}/>
                             </span>
                             }
-                        </a>
-                    </li>
-                )}
+                            <button
+                            className="btn btn-danger"
+                            onClick={() => deleteTopic(topic._id)}>
+                            <i className="fa fa-times"></i>
+                            </button>
+                        </Link>
+                    </li>)}
 
-            <button
-                className="btn btn-primary "
-                onClick={() => createTopicForLesson(lessonId)}>
-                <i className="fa fa-plus" aria-hidden="true"></i>
-            </button>
-            <br/>
+                    <span>
+                        <button
+                            className="btn btn-primary form-inline"
+                            onClick={() => createTopic(lessonId)}>
+                        <i className="fa fa-plus" aria-hidden="true"></i>
+                        </button>
+                        <br/>
+                    </span>
+
         </ul>
     </div>
 
 const stateToPropertyMapper = (state) => ({
+    course:state.courseReducer.course,
+    moduleId: state.lessonReducer.moduleId,
     topics: state.topicReducer.topics,
     lessonId: state.topicReducer.lessonId
 })
 
-const propertyToDispatchMapper = (dispatch) => ({
-    updateTopic: (newTopic) =>
-        topicService.updateTopic(newTopic)
-            .then(actualTopic => dispatch({
-                type: "UPDATE_TOPIC",
-                topic: actualTopic
-            })),
+const dispatchMapper = (dispatch) => ({
+    ok:(topic) =>
+        topicService.updateTopic(topic._id,{
+            ...topic,editing:false
+        }).then (status=> dispatch({
+            type:"UPDATE_TOPIC",
+            topic: {...topic,editing:false}
+        })),
+
+    edit:(topic) =>
+        topicService.updateTopic(topic._id,{
+            ...topic,editing:true
+        }).then (status=> dispatch({
+            type:"UPDATE_TOPIC",
+            topic:{...topic,editing:true}
+        })),
+
+    updateTopic: (topic) =>
+        dispatch({
+            type:"UPDATE_TOPIC",
+            topic:topic
+        }),
+        // topicService.updateTopic(newTopic)
+        //     .then(actualTopic => dispatch({
+        //         type: "UPDATE_TOPIC",
+        //         topic: actualTopic
+        //     })),
     deleteTopic: (topicId) =>
         topicService.deleteTopic(topicId)
             .then(status => dispatch({
                 type: "DELETE_TOPIC",
                 topicId
             })),
-    createTopicForLesson: (lessonId) =>
-        topicService.createTopicForLesson(
-            lessonId, {
-                title: "New Topic"
-            })
-            .then(actualTopic => dispatch({
-                type: "CREATE_TOPIC_FOR_LESSON",
-                topic: actualTopic
+    createTopic: (lessonId) =>
+        topicService.createTopic(lessonId, {
+            title: "New Topic"
+        })
+            .then(topic => dispatch({
+                type: "CREATE_TOPIC",
+                topic: topic
             }))
 })
 
 export default connect
-(stateToPropertyMapper, propertyToDispatchMapper)
+(stateToPropertyMapper, dispatchMapper)
 (TopicPills)
-
-// export default class TopicPillsComponent extends React.Component{
-//     render() {
-//         return(
-//             <ul className="nav nav-pills">
-//                 <li className="nav-item">
-//                     <a className="nav-link active" href="#">Topic 1</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a className="nav-link" href="#">Topic 2</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a className="nav-link" href="#">Topic 3</a>
-//                 </li>
-//                 <li className="nav-item">
-//                     <a className="nav-link" href="#">Topic 4</a>
-//                 </li>
-//                 <button className="btn btn-success pull-right">
-//                     <i className="fa fa-plus" aria-hidden="true"></i>
-//                 </button>
-//
-//             </ul>
-//
-//         )
-//     }
-// }

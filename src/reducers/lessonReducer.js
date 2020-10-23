@@ -19,7 +19,7 @@ const lessonReducer = (state={}, action) => {
         case "UPDATE_LESSON":
             return {
                 ...state,
-                lessons: state.lessons.map(lesson => lesson._id === action.lesson?action.lesson : lesson)
+                lessons: state.lessons.map(lesson => lesson._id === action.lesson._id? action.lesson : lesson)
             }
         case "DELETE_LESSON":
             return {
