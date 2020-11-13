@@ -76,14 +76,14 @@ export default class CourseGridComponent extends React.Component{
                                    aria-hidden="true">
                                 </i>
                             </Link>
-                            {/*<Route path="/courses/grid"*/}
-                            {/*       exact*/}
-                            {/*       component={CourseGridComponent}/>*/}
                         </th>
-                        <th><i className="fa fa-list pull-right"
-                               aria-hidden="true"
-                        >
-                        </i></th>
+                        <th>
+                            <Link to="/courses">
+                                <i className="fa fa-list pull-right"
+                                   aria-hidden="true">
+                                </i>
+                            </Link>
+                        </th>
                         <th><i className="fa fa-sort-alpha-asc pull-right"
                                aria-hidden="true">
                         </i></th>

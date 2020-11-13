@@ -65,9 +65,10 @@ class CourseListComponent extends React.Component {
                     <input className="form-control"/>
                     <button className="btn btn-danger pull-right"><i className="fa fa-plus" aria-hidden="true"></i></button>
                 </h1>
-                <div>
+
+                <div >
                     <table className="table table-hover ">
-                        <thread>
+                        <thread >
                             <tr>
                                 <th>Title</th>
                                 <th>Owner</th>
@@ -79,13 +80,19 @@ class CourseListComponent extends React.Component {
                                         </i>
                                     </Link>
                                 </th>
-                                <th><i className="fa fa-list pull-right"
+                                <th>
+                                    <Link to="/courses">
+                                    <i className="fa fa-list pull-right"
                                        aria-hidden="true"
                                        >
-                                </i></th>
-                                <th><i className="fa fa-sort-alpha-asc pull-right"
+                                    </i>
+                                    </Link>
+                                </th>
+                                <th>
+                                    <i className="fa fa-sort-alpha-asc pull-right"
                                        aria-hidden="true">
-                                </i></th>
+                                    </i>
+                                </th>
                             </tr>
                         </thread>
                         <tbody>

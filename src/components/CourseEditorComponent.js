@@ -9,6 +9,7 @@ import moduleService from "../services/ModuleService";
 import lessonService from "../services/LessonService"
 import LessonTabs from "../components/LessonTabsComponent";
 import topicService from "../services/TopicService";
+import widgetService from "../services/WidgetService"
 
 
 class CourseEditorComponent extends React.Component{
@@ -17,13 +18,13 @@ class CourseEditorComponent extends React.Component{
         const courseId = this.props.match.params.courseId
         const moduleId = this.props.match.params.moduleId
         const lessonId = this.props.match.params.lessonId
-        // const topicId = this.props.match.params.topicId
+        const topicId = this.props.match.params.topicId
 
         this.props.findCourseById(courseId)
         this.props.findModulesForCourse(courseId)
         // this.props.findLessonsForModule(moduleId)
         // this.props.findTopicsForLesson(lessonId)
-
+        // this.props.findAllWidgets()
         if(moduleId) {
             this.props.findLessonsForModule(moduleId)
         }
@@ -31,9 +32,10 @@ class CourseEditorComponent extends React.Component{
         if(lessonId) {
             this.props.findTopicsForLesson(lessonId)
         }
-        // if(topicId) {
-        //     this.props.findTopicsForLesson(topicId)
-        // }
+
+        if(topicId) {
+            this.props.findWidgetsForTopic(topicId)
+        }
 
     }
 
@@ -41,16 +43,18 @@ class CourseEditorComponent extends React.Component{
         const courseId = this.props.match.params.courseId
         const moduleId = this.props.match.params.moduleId
         const lessonId = this.props.match.params.lessonId
+        const topicId = this.props.match.params.topicId
         if(moduleId !== prevProps.match.params.moduleId) {
-            if(moduleId){
-                this.props.findLessonsForModule(moduleId)
-            }
+            this.props.findLessonsForModule(moduleId)
         }
-        if(lessonId !== prevProps.match.params.lessonId){
-            if(lessonId){
-                this.props.findTopicsForLesson(lessonId)
+        if(lessonId !== prevProps.match.params.lessonId) {
+            this.props.findTopicsForLesson(lessonId)
         }
-            }}
+        if(topicId) {
+            this.props.findWidgetsForTopic(topicId)
+        }
+
+    }
 
     render(){
         return(
@@ -79,6 +83,25 @@ const stateToPropertyMapper = (state) => ({
 })
 
 const propertyToDispatchMapper = (dispatch) =>({
+    findWidgetsForTopic: (topicId) =>
+    {
+        widgetService.findWidgetsForTopic(topicId)
+            .then(widgets => {
+                dispatch({
+                    type: "FIND_WIDGETS_FOR_TOPIC",
+                    widgets,
+                    topicId
+                })
+            })
+    },
+
+    findAllWidgets: () =>
+        widgetService.findAllWidgets()
+            .then(widgets => dispatch({
+                type: "FIND_ALL_WIDGETS",
+                widgets
+            })),
+
     findCourseById: (courseId) => findCourseById(courseId)
         .then(actualCourse => dispatch({
             type: "SET_COURSES",

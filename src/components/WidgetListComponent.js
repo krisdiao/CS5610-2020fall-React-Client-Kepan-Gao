@@ -1,81 +1,105 @@
 import React from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import {connect} from "react-redux";
-import {createWidget,deleteWidget,updateWidget,editWidget,okWidget} from "../actions/widgetActions";
-import widgetReducer from "../reducers/widgetReducer";
+import {
+    createWidget,
+    deleteWidget,
+    updateWidget,
+    editWidget,
+    okWidget,
+    moveUp,
+    moveDown
+} from "../actions/widgetActions";
+import HeadingWidget from "./widgets/HeadingWidget";
+import ParagraphWidget from "./widgets/ParagraphWidget";
+import Switch from "@material-ui/core/Switch";
 
 const WidgetList = ({
                         widgets=[],
+                        course,
+                        moduleId,
+                        lessonId,
+                        topicId,
                         createWidget,
                         deleteWidget,
                         updateWidget,
                         editWidget,
-                        okWidget}) =>
+                        okWidget
+                    }) =>
     <div>
-        <h3>Widgets</h3>
-        <ul className="nav nav-pills">
+        <h3>
+            Widgets({topicId})
+        </h3>
+        <ul>
             {
                 widgets.map(widget =>
-                <li className="nav-item">
-                    {
-                        widget.editing &&
-                        <span>
-                            <input className= "form-control"
-                                onChange={(event) => updateWidget({
-                                    ...widget,
-                                    name:event.target.value
-                                })}
-                                value={widget.name}/>
-                            <button
-                                className="btn btn-success"
-                                onClick={()=> okWidget(widget)}>
-                            <i className="fa fa-check" aria-hidden="true"></i>
-                            </button>
-                        </span>
+                <li
+                    key={widget.id}
+                    className="nav-item">
+                        <label className="pull-right">
+                            <Switch
 
-                    }
-                    {
-                        !widget.editing &&
-                            <span>
-                                {widget.name}
-                                <button
-                                    className="btn btn-primary"
-                                    onClick={()=> editWidget(widget)}>
-                                    <i className="fa fa-pencil" aria-hidden="true"></i>
-                                </button>
-                            </span>
-                    }
-                    <button
-                        className="btn btn-danger"
-                        onClick={() => deleteWidget(widget) }>
-                        <i className="fa fa-times" aria-hidden="true"></i>
-                    </button>
+                                type="checkbox"
+                                onChange={()=> editWidget(widget)}
+                                checked={widget.editing}
+                                color="primary"/>
+                                Preview
+                        </label>
+
+                                {
+                                    widget.type === "HEADING" &&
+                                    <HeadingWidget
+                                        key={widget.id}
+                                        widget={widget}
+                                        deleteWidget={deleteWidget}
+                                        updateWidget={updateWidget}
+                                        okWidget={okWidget}/>
+                                }
+
+                                {
+                                    widget.type === "PARAGRAPH" &&
+                                    <ParagraphWidget
+                                        key={widget.id}
+                                        widget={widget}
+                                        deleteWidget={deleteWidget}
+                                        updateWidget={updateWidget}
+                                        okWidget={okWidget}/>
+                                }
                 </li>
                 )
             }
         </ul>
 
-        <button  className="btn btn-primary pull-right" onClick={createWidget}>
+        <button  className="btn btn-primary pull-right" onClick={() => createWidget(topicId)}>
             <i className="fa fa-plus" aria-hidden="true"></i>
         </button>
 
     </div>
 
 
-const stateToPropertyMapper =(state) =>({
-    widgets: state.widgetReducer.widgets
+const stateToPropertyMapper = (state) => ({
+    topicId: state.widgetReducer.topicId,
+    widgets: state.widgetReducer.widgets,
+    course:state.courseReducer.course,
+    moduleId: state.lessonReducer.moduleId,
+    lessonId: state.topicReducer.lessonId
 })
 
 
 const propertyToDispatchMapper = (dispatch) => ({
-    deleteWidget:(widget) => deleteWidget(dispatch,widget),
-    createWidget:() => createWidget(dispatch),
-    updateWidget:(widget) => updateWidget(dispatch,widget),
-    editWidget:(widget) => editWidget(dispatch,widget),
-    okWidget:(widget) => okWidget(dispatch,widget),
+    deleteWidget: (widget) => deleteWidget(dispatch, widget),
+    createWidget: (topicId) => createWidget(dispatch,topicId),
+    updateWidget: (widget) => updateWidget(dispatch, widget),
+    editWidget: (widget) => editWidget(dispatch, widget),
+    okWidget: (widget) => okWidget(dispatch, widget),
+    moveUp:(widget) => moveUp(dispatch,widget),
+    moveDown:(widget) => moveDown(dispatch,widget),
+
 })
 
 
 
-export default connect( stateToPropertyMapper,propertyToDispatchMapper)(WidgetList)
-
+export default connect
+( stateToPropertyMapper,
+    propertyToDispatchMapper)
+(WidgetList)

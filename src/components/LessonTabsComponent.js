@@ -29,7 +29,7 @@ const LessonTabs = (
                         <li key={lesson._id}
                             className="nav-item">
                             <Link to={`/edit/${course._id}/modules/${moduleId}/lessons/${lesson._id}`}
-                                  class="nav-link ">
+                                  className="nav-link ">
                             {
                             !lesson.editing &&
                             <span>

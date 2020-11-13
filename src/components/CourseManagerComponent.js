@@ -31,9 +31,6 @@ export class CourseManagerComponent extends React.Component{
                         <Route path="/courses" exact>
                             <CourseListComponent course={this.state.courses} instructor="Jose" />
                         </Route>
-                        {/*<Route path="/table"*/}
-                        {/*exact*/}
-                        {/*component={CourseTableComponent}/>*/}
                         <Route path="/courses/grid"
                         exact
                         component={CourseGridComponent}/>

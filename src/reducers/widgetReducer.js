@@ -2,57 +2,64 @@ import {DELETE_WIDGET,CREATE_WIDGET,UPDATE_WIDGET} from "../actions/widgetAction
 
 
 const initialState ={
-    widgets:[
-        {
-            _id:"111",
-            name:"Widget 1",
-            editing:false
-        },
-        {
-            _id:"1112",
-            name:"Widget 2",
-            editing:false
-        },
-        {
-            _id:"113",
-            name:"Widget 3",
-            editing:false
-        },
-        {
-            _id:"114",
-            name:"Widget 4",
-            editing:false
-        }
-
-    ]
+    widgets:[]
 }
 
 const widgetReducer =(state = initialState,action) =>{
     switch (action.type){
+        case "FIND_WIDGETS_FOR_TOPIC":
+            return {
+                ...state,
+                widgets: action.widgets,
+                topicId: action.topicId,
+            }
+        case "FIND_ALL_WIDGETS":
+            return {
+                ...state,
+                widgets: action.widgets
+            }
+
         case CREATE_WIDGET:
             return {
-                widgets: [...state.widgets,{
-                    _id:Date.now()+"",
-                    name: "New Widget"
-                }]
+                ...state,
+                widgets: [...state.widgets, action.widget]
             }
         case UPDATE_WIDGET:
             return{
+                ...state,
                 widgets: state.widgets.map(
-                    widget => widget._id === action.widget._id ?
-                        action.widget: widget)
+                    widget => widget.id === action.widget.id ? action.widget: widget)
             }
 
         case DELETE_WIDGET:
             return{
+                ...state,
                 widgets: state.widgets.filter(widget => widget !== action.widget)
             }
         default:
             return state
+
+        // case "MOVE_UP":
+        //     let index = state.indexOf(action.widget);
+        //     state.move(index, index - 1);
+        //     return state.splice(0);
+        //
+        // case "MOVE_DOWN":
+        //     let index = state.indexOf(action.widget);
+        //     state.move(index, index + 1);
+        //     return state.splice(0);
+
+        // case 'TOGGLE_EDITING':
+        //     newState = JSON.parse(JSON.stringify(state))
+        //     index = newState.findIndex(
+        //         function (widget) {
+        //             return widget.id === action.id
+        //         })
+        //     newState[index].editing = action.editing
+        //     console.log(newState)
+        //     return newState
+
     }
-
-
-    return state;
 }
 
 export default widgetReducer
