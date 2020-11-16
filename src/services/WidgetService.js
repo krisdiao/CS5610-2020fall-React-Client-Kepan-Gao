@@ -1,23 +1,24 @@
-const WIDGET_URL = "http://localhost:8080/api/widgets"
-const TOPIC_URL  = "http://localhost:8080/api/topics"
+const WIDGET_URL = "https://pacific-lowlands-84173.herokuapp.com//api/widgets"
+const TOPIC_URL  = "https://pacific-lowlands-84173.herokuapp.com//api/topics"
 
 const findAllWidgets = () =>
     fetch(WIDGET_URL)
         .then(response => response.json())
 
-const findWidgetsForTopic = (tid) =>
-    fetch(`${TOPIC_URL}/${tid}/widgets`)
+const findWidgetsForTopic = (topicId) =>
+    fetch(`${TOPIC_URL}/${topicId}/widgets`)
         .then(response => response.json())
 
 const createWidget = (topicId) =>
-    fetch(WIDGET_URL, {
+    fetch(`${TOPIC_URL}/${topicId}/widgets`, {
         method: "POST",
         body: JSON.stringify({
-            name: "NEW HEADING",
-            type: "PARAGRAPH",
+            name: "NEW IMAGE",
+            type: "IMAGE",
             topicId,
-            text:"Paragraph Text",
+            text:"IMAGE Text",
             size:"1",
+            url:"http://lorempixel.com/300/150",
         }),
         headers: {
             "content-type": "application/json"
@@ -25,19 +26,20 @@ const createWidget = (topicId) =>
     })
         .then(response => response.json())
 
-const updateWidget = (wid, widget) =>
-    fetch(`${WIDGET_URL}/${wid}`,{
+const updateWidget = (widgetId, newWidget) =>{
+    return fetch(`${WIDGET_URL}/${widgetId}`,{
         method:"PUT",
-        body: JSON.stringify(widget),
+        body: JSON.stringify(newWidget),
         headers: {
             "content-type": "application/json"
         }
     }).then(response => response.json())
-
-const deleteWidget = wid =>
-    fetch(`${WIDGET_URL}/${wid}`,{
+}
+const deleteWidget = (widgetId) => {
+    return fetch(`${WIDGET_URL}/${widgetId}`, {
         method: "DELETE"
-    }).then(response => response.json())
+    })
+}
 
 export default {
     findAllWidgets,

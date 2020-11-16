@@ -4,8 +4,8 @@ import widgetService from "../services/WidgetService"
 export const DELETE_WIDGET ="DELETE_WIDGET"
 export const UPDATE_WIDGET ="UPDATE_WIDGET"
 export const CREATE_WIDGET ="CREATE_WIDGET"
-export const EDIT_WIDGET ="EDIT_WIDGET"
-export const OK_WIDGET ="OK_WIDGET"
+// export const EDIT_WIDGET ="EDIT_WIDGET"
+// export const OK_WIDGET ="OK_WIDGET"
 export const TOGGLE_EDITING="TOGGLE_EDITING"
 
 export const createWidget = (dispatch,topicId) =>
@@ -17,33 +17,42 @@ export const createWidget = (dispatch,topicId) =>
         }))
 
 export const updateWidget = (dispatch,widget) =>
-    widgetService.updateWidget(widget)
-        .then(status =>
-            dispatch({
-                type:"UPDATE_WIDGET",
-                widget
-            }))
+    dispatch({
+                    type:"UPDATE_WIDGET",
+                    widget
+                })
+
+    // widgetService.updateWidget(widget.id,widget)
+    //     .then(status =>
+    //         dispatch({
+    //             type:"UPDATE_WIDGET",
+    //             widget
+    //         }))
 
 export const deleteWidget = (dispatch,widget) =>
-{
-    widgetService.deleteWidget(widget)
+    widgetService.deleteWidget(widget.id)
         .then(status => dispatch({
             type:"DELETE_WIDGET",
             widget
             })
         )
+
+
+export const editWidget = (dispatch,widget) => {
+    debugger
+    widgetService.updateWidget(widget._id, {...widget, editing: true})
+        .then(status => {
+            debugger
+                dispatch({
+                    type: "UPDATE_WIDGET",
+                    widget: {...widget, editing: true}
+                })
+            }
+        )
 }
 
-export const editWidget = (dispatch,widget) =>
-    widgetService.updateWidget({...widget,editing:true})
-        .then(status => dispatch({
-                type:"UPDATE_WIDGET",
-                widget:{...widget,editing:true}
-            })
-        )
-
 export const okWidget = (dispatch,widget) =>
-    widgetService.updateWidget({...widget,editing:false})
+    widgetService.updateWidget(widget.id,{...widget,editing:false})
         .then(status => dispatch({
                 type:"UPDATE_WIDGET",
                 widget:{...widget,editing:false}

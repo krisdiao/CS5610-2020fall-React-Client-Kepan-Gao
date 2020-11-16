@@ -1,4 +1,5 @@
 import React from "react";
+import Switch from "@material-ui/core/Switch";
 
 const HeadingWidget = (
     {
@@ -6,10 +7,20 @@ const HeadingWidget = (
         deleteWidget,
         updateWidget,
         okWidget,
+        editWidget,
 
     }
     ) =>
     <div className="wbdv-light-grey-border">
+
+        <label className="pull-right">
+            <Switch
+                type="checkbox"
+                onChange={()=> editWidget(widget)}
+                checked={widget.editing}
+                color="primary"/>
+            Preview
+        </label>
         {
             widget.editing &&
             <div>

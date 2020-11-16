@@ -2,13 +2,13 @@ import React from "react";
 import "./WidgetStyleSheet.css";
 import Switch from "@material-ui/core/Switch";
 
-const ParagraphWidget = ({
+const ListWidget = ({
                              widget,
                              deleteWidget,
                              updateWidget,
                              okWidget,
                              editWidget
-                        }) =>
+                         }) =>
 
     <div className="wbdv-light-grey-border">
         <label className="pull-right">
@@ -22,11 +22,11 @@ const ParagraphWidget = ({
         {
             widget.editing &&
             <div>
-                <h3>Paragraph</h3>
-                <span className="pull-right">
+            <h3>List</h3>
+            <span className="pull-right">
                     <button
                         className="btn btn-success"
-                        onClick={() => okWidget(widget)}>
+                        onClick={()=> okWidget(widget)}>
                         Save
                     </button>
                 <button className="btn btn-warning "
@@ -40,51 +40,54 @@ const ParagraphWidget = ({
                     <i className="fa fa-arrow-down"></i>
                 </button>
                 <select className="form-control-sm">
-                    <option>Paragraph</option>
-                    <option>Heading</option>
                     <option>List</option>
+                    <option>Heading</option>
+                    <option>Paragraph</option>
                     <option>Image</option>
                     <option>Hyperlink</option>
                     <option>Video</option>
                 </select>
                 <button
                     className="btn btn-danger "
-                    onClick={() => deleteWidget(widget)}>
+                    onClick={() => deleteWidget(widget) }>
                     <i className="fa fa-times" aria-hidden="true"></i>
                 </button>
                 </span>
-                <br/>
-                <br/>
-                <textarea
-                    onChange={(event) => updateWidget({
-                        ...widget,
-                        title: event.target.value
-                    })}
-                    value={widget.text}
-                    className="form-control">
+            <br/>
+            <br/>
+            <textarea
+                onChange={(event)=> updateWidget({
+                    ...widget,
+                    title:event.target.value
+                })}
+                value={widget.text}
+                className="form-control">
             </textarea>
-                <br/>
-                <input
-                    onChange={(event) => updateWidget({
-                        ...widget,
-                        title: event.target.value
-                    })}
-                    value={widget.name}
-                    className="form-control"/>
-                <br/>
-                <h3>Preview</h3>
-                {widget.text}
+            <br/>
+            <select className="form-control">
+                <option>Unordered list</option>
+                <option>Ordered list</option>
+            </select>
+            <br/>
+            <input
+                onChange={(event)=> updateWidget({
+                    ...widget,
+                    title:event.target.value
+                })}
+                value={widget.name}
+                className="form-control" />
+            <br/>
+            <h3>Preview</h3>
+            {widget.text}
             </div>
         }
         {
             !widget.editing &&
             <div>
-                <h3>Preview</h3>
-                {widget.text}
+            <h3>Preview</h3>
+            {widget.text}
             </div>
         }
-
-
     </div>
 
-export default ParagraphWidget
+export default ListWidget
