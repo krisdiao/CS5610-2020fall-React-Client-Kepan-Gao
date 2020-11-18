@@ -1,6 +1,7 @@
 import React from "react";
 import Switch from "@material-ui/core/Switch";
 
+let select;
 const HeadingWidget = (
     {
         widget,
@@ -8,6 +9,7 @@ const HeadingWidget = (
         updateWidget,
         okWidget,
         editWidget,
+        setWidgetType,
 
     }
     ) =>
@@ -19,7 +21,15 @@ const HeadingWidget = (
                 onChange={()=> editWidget(widget)}
                 checked={widget.editing}
                 color="primary"/>
-            Preview
+            Preview Off
+        </label>
+        <label className="pull-right">
+            <Switch
+                type="checkbox"
+                onChange={()=> okWidget(widget)}
+                checked={widget.editing}
+                color="primary"/>
+            Preview On
         </label>
         {
             widget.editing &&
@@ -37,6 +47,17 @@ const HeadingWidget = (
                     <button className="btn btn-warning">
                         <i className="fa fa-arrow-down"></i>
                     </button>
+                    {/*<select ref={node => select = node}*/}
+                    {/*        value={widget.type}*/}
+                    {/*        onChange={() => (setWidgetType(widget.id, select.value))}*/}
+                    {/*        className="form-control-sm">*/}
+                    {/*    <option>Heading</option>*/}
+                    {/*    <option>Paragraph</option>*/}
+                    {/*    <option>List</option>*/}
+                    {/*    <option>Image</option>*/}
+                    {/*    <option>Hyperlink</option>*/}
+                    {/*    <option>Video</option>*/}
+                    {/*</select>*/}
                     <select className="form-control-sm" >
                         <option>Heading</option>
                         <option>Paragraph</option>
@@ -54,7 +75,13 @@ const HeadingWidget = (
                 </span>
                 <br/>
                 <br/>
-                <input placeholder="Text" className="form-control" />
+                <input
+                    onChange={(event)=> updateWidget({
+                    ...widget,
+                    title:event.target.value
+                })}
+                        value={widget.text}
+                        className="form-control"/>
                 <br/>
                 <select className="form-control" >
                     <option>Heading 1</option>

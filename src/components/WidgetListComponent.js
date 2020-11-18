@@ -8,7 +8,8 @@ import {
     editWidget,
     okWidget,
     moveUp,
-    moveDown
+    moveDown,
+    setWidgetType
 } from "../actions/widgetActions";
 import HeadingWidget from "./widgets/HeadingWidget";
 import ParagraphWidget from "./widgets/ParagraphWidget";
@@ -26,7 +27,9 @@ const WidgetList = ({
                         deleteWidget,
                         updateWidget,
                         editWidget,
-                        okWidget
+                        okWidget,
+                        setWidgetType,
+
                     }) =>
     <div>
         <h3>
@@ -50,6 +53,7 @@ const WidgetList = ({
                                         updateWidget={updateWidget}
                                         okWidget={okWidget}
                                         editWidget={editWidget}
+                                        setWidgetType={setWidgetType}
 
                                     />
                                 }
@@ -62,6 +66,7 @@ const WidgetList = ({
                                         updateWidget={updateWidget}
                                         okWidget={okWidget}
                                         editWidget={editWidget}
+                                        setWidgetType={setWidgetType}
 
                                     />
                                 }
@@ -74,6 +79,7 @@ const WidgetList = ({
                                         updateWidget={updateWidget}
                                         okWidget={okWidget}
                                         editWidget={editWidget}
+                                        setWidgetType={setWidgetType}
 
                                     />
                                 }
@@ -86,6 +92,7 @@ const WidgetList = ({
                                         updateWidget={updateWidget}
                                         okWidget={okWidget}
                                         editWidget={editWidget}
+                                        setWidgetType={setWidgetType}
 
                                     />
                                 }
@@ -114,11 +121,8 @@ const propertyToDispatchMapper = (dispatch) => ({
     deleteWidget: (widget) => deleteWidget(dispatch, widget),
     createWidget: (topicId) => createWidget(dispatch,topicId),
     updateWidget: (widget) => updateWidget(dispatch, widget),
-
-    editWidget: (widget) => {
-        debugger
-        editWidget(dispatch, widget)
-    },
+    editWidget: (widget) => editWidget(dispatch, widget),
+    setWidgetType: (widget) => setWidgetType(dispatch, widget),
     okWidget: (widget) => okWidget(dispatch, widget),
     moveUp:(widget) => moveUp(dispatch,widget),
     moveDown:(widget) => moveDown(dispatch,widget),

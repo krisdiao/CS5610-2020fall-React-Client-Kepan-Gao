@@ -25,12 +25,14 @@ const widgetReducer =(state = initialState,action) =>{
                 widgets: [...state.widgets, action.widget]
             }
         case UPDATE_WIDGET:
+            // const newState =
             return {
                 ...state,
                 widgets: state.widgets.map(
-                    widget => widget._id === action.widget._id ?
+                    widget => widget.id === action.widget.id ?
                         action.widget : widget)
             }
+            // return newState
 
         case DELETE_WIDGET:
             return{
@@ -39,6 +41,16 @@ const widgetReducer =(state = initialState,action) =>{
             }
         default:
             return state
+
+        case "SET_WIDGET_TYPE":
+            let newState = JSON.parse(JSON.stringify(state))
+            let index;
+            index = newState.findIndex(function (widget) {
+                return widget.id === action.id})
+            newState[index].widget = action.widget
+                return newState
+
+
 
         // case "MOVE_UP":
         //     let index = state.indexOf(action.widget);

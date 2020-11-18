@@ -17,7 +17,15 @@ const ImageWidget = ({
                 onChange={()=> editWidget(widget)}
                 checked={widget.editing}
                 color="primary"/>
-            Preview
+            Preview Off
+        </label>
+        <label className="pull-right">
+            <Switch
+                type="checkbox"
+                onChange={()=> okWidget(widget)}
+                checked={widget.editing}
+                color="primary"/>
+            Preview On
         </label>
         {
             widget.editing &&
@@ -40,10 +48,10 @@ const ImageWidget = ({
                     <i className="fa fa-arrow-down"></i>
                 </button>
                 <select className="form-control-sm">
-                    <option>List</option>
+                    <option>Image</option>
                     <option>Heading</option>
                     <option>Paragraph</option>
-                    <option>Image</option>
+                    <option>List</option>
                     <option>Hyperlink</option>
                     <option>Video</option>
                 </select>

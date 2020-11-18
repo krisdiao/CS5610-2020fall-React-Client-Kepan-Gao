@@ -17,7 +17,15 @@ const ListWidget = ({
                 onChange={()=> editWidget(widget)}
                 checked={widget.editing}
                 color="primary"/>
-            Preview
+            Preview Off
+        </label>
+        <label className="pull-right">
+            <Switch
+                type="checkbox"
+                onChange={()=> okWidget(widget)}
+                checked={widget.editing}
+                color="primary"/>
+            Preview On
         </label>
         {
             widget.editing &&

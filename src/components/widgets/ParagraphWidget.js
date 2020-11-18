@@ -2,13 +2,16 @@ import React from "react";
 import "./WidgetStyleSheet.css";
 import Switch from "@material-ui/core/Switch";
 
+let select;
 const ParagraphWidget = ({
                              widget,
                              deleteWidget,
                              updateWidget,
                              okWidget,
-                             editWidget
-                        }) =>
+                             editWidget,
+                             setWidgetType,
+
+                         }) =>
 
     <div className="wbdv-light-grey-border">
         <label className="pull-right">
@@ -17,7 +20,15 @@ const ParagraphWidget = ({
                 onChange={()=> editWidget(widget)}
                 checked={widget.editing}
                 color="primary"/>
-            Preview
+            Preview Off
+        </label>
+        <label className="pull-right">
+            <Switch
+                type="checkbox"
+                onChange={()=> okWidget(widget)}
+                checked={widget.editing}
+                color="primary"/>
+            Preview On
         </label>
         {
             widget.editing &&
@@ -39,6 +50,16 @@ const ParagraphWidget = ({
                 >
                     <i className="fa fa-arrow-down"></i>
                 </button>
+                {/*<select     ref={node => select = node}*/}
+                {/*            value={widget.type}*/}
+                {/*            onChange={() => setWidgetType(widget.id, select.value)}*/}
+                {/*            className="form-control-sm">*/}
+                {/*        <option>Heading</option>*/}
+                {/*        <option>Paragraph</option>*/}
+                {/*        <option>HTML</option>*/}
+                {/*        <option>Link</option>*/}
+                {/*        <option>iFrame</option>*/}
+                {/*</select>*/}
                 <select className="form-control-sm">
                     <option>Paragraph</option>
                     <option>Heading</option>

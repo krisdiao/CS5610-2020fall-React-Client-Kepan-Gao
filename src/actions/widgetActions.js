@@ -39,10 +39,8 @@ export const deleteWidget = (dispatch,widget) =>
 
 
 export const editWidget = (dispatch,widget) => {
-    debugger
     widgetService.updateWidget(widget._id, {...widget, editing: true})
         .then(status => {
-            debugger
                 dispatch({
                     type: "UPDATE_WIDGET",
                     widget: {...widget, editing: true}
@@ -58,6 +56,13 @@ export const okWidget = (dispatch,widget) =>
                 widget:{...widget,editing:false}
             })
         )
+
+export const setWidgetType = (dispatch, widget) =>
+    widgetService.updateWidget(widget.id)
+        .then(status => dispatch({
+            type: 'SET_WIDGET_TYPE',
+            widget: widget
+        }))
 
 export const toggleEditing = (id, checked) => {
     return {
