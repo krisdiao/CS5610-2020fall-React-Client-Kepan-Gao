@@ -8,7 +8,6 @@ const topicReducer =(state={},action) =>{
                 lessonId:action.lessonId
             }
         case "CREATE_TOPIC":
-            debugger
             return {
                 ...state,
                 topics: [

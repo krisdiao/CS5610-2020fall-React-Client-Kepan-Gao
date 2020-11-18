@@ -26,8 +26,8 @@ const TopicPills = (
                     <li
                         key={topic._id}
                         className="nav-item">
-                        <Link to ={`/edit/${course._id}/modules/${moduleId}/lessons/${lessonId}`}
-                              class="nav-link ">
+                        <Link to ={`/edit/${course._id}/modules/${moduleId}/lessons/${lessonId}/topics/${topic._id}`}
+                              className="nav-link ">
 
                             {
                                 !topic.editing &&
