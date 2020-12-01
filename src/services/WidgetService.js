@@ -15,12 +15,13 @@ const createWidget = (topicId) =>
     fetch(`${TOPIC_URL}/${topicId}/widgets`, {
         method: "POST",
         body: JSON.stringify({
-            name: "NEW IMAGE",
-            type: "IMAGE",
+            name: "NEW LIST",
+            type: "LIST",
             topicId,
-            text:"IMAGE Text",
+            text:"LIST Text",
             size:"1",
             url:"http://lorempixel.com/300/150",
+            value:"unordered"
         }),
         headers: {
             "content-type": "application/json"

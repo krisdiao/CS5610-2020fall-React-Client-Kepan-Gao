@@ -66,6 +66,8 @@ const ListWidget = ({
             <br/>
             <br/>
             <textarea
+                rows="3"
+                cols="10"
                 onChange={(event)=> updateWidget({
                     ...widget,
                     text:event.target.value
@@ -74,9 +76,13 @@ const ListWidget = ({
                 className="form-control">
             </textarea>
             <br/>
-            <select className="form-control">
-                <option value="unordered list">Unordered list</option>
-                <option value="ordered list">Ordered list</option>
+            <select
+                onChange={(event)=> updateWidget({...widget,
+                    value:event.target.value})}
+                value={widget.value}
+                className="form-control">
+                <option value="unordered">Unordered list</option>
+                <option value="ordered">Ordered list</option>
             </select>
             <br/>
             <input
@@ -88,14 +94,28 @@ const ListWidget = ({
                 className="form-control" />
             <br/>
             <h3>Preview</h3>
-                <ul>{widget.text}</ul>
+                {
+                    widget.value === "unordered" &&
+                    <ul>{widget.text}</ul>
+                }
+                {
+                    widget.value === "ordered"&&
+                    <li>{widget.text}</li>
+                }
             </div>
         }
         {
             !widget.editing &&
             <div>
             <h3>Preview</h3>
-            {widget.text}
+                {
+                    widget.value === "unordered" &&
+                    <ul>{widget.text}</ul>
+                }
+                {
+                    widget.value === "ordered"&&
+                    <li>{widget.text}</li>
+                }
             </div>
         }
     </div>
