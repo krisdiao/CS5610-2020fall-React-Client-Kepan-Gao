@@ -60,13 +60,16 @@ const ParagraphWidget = ({
                 {/*        <option>Link</option>*/}
                 {/*        <option>iFrame</option>*/}
                 {/*</select>*/}
-                <select className="form-control-sm">
-                    <option>Paragraph</option>
-                    <option>Heading</option>
-                    <option>List</option>
-                    <option>Image</option>
-                    <option>Hyperlink</option>
-                    <option>Video</option>
+                <select
+                    onChange={(event)=> updateWidget({
+                    ...widget,
+                        type:event.target.value})}
+                        value={widget.type}
+                        className="form-control-sm" >
+                    <option value="HEADING">Heading</option>
+                    <option value="PARAGRAPH">Paragraph</option>
+                    <option value="LIST">List</option>
+                    <option value="IMAGE">Image</option>
                 </select>
                 <button
                     className="btn btn-danger "
@@ -79,7 +82,7 @@ const ParagraphWidget = ({
                 <textarea
                     onChange={(event) => updateWidget({
                         ...widget,
-                        title: event.target.value
+                        text: event.target.value
                     })}
                     value={widget.text}
                     className="form-control">
@@ -88,7 +91,7 @@ const ParagraphWidget = ({
                 <input
                     onChange={(event) => updateWidget({
                         ...widget,
-                        title: event.target.value
+                        name: event.target.value
                     })}
                     value={widget.name}
                     className="form-control"/>

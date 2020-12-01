@@ -47,13 +47,15 @@ const ListWidget = ({
                 >
                     <i className="fa fa-arrow-down"></i>
                 </button>
-                <select className="form-control-sm">
-                    <option>List</option>
-                    <option>Heading</option>
-                    <option>Paragraph</option>
-                    <option>Image</option>
-                    <option>Hyperlink</option>
-                    <option>Video</option>
+                <select
+                    onChange={(event)=> updateWidget({...widget,
+                    type:event.target.value})}
+                        value={widget.type}
+                        className="form-control-sm" >
+                    <option value="HEADING">Heading</option>
+                    <option value="PARAGRAPH">Paragraph</option>
+                    <option value="LIST">List</option>
+                    <option value="IMAGE">Image</option>
                 </select>
                 <button
                     className="btn btn-danger "
@@ -66,27 +68,27 @@ const ListWidget = ({
             <textarea
                 onChange={(event)=> updateWidget({
                     ...widget,
-                    title:event.target.value
+                    text:event.target.value
                 })}
                 value={widget.text}
                 className="form-control">
             </textarea>
             <br/>
             <select className="form-control">
-                <option>Unordered list</option>
-                <option>Ordered list</option>
+                <option value="unordered list">Unordered list</option>
+                <option value="ordered list">Ordered list</option>
             </select>
             <br/>
             <input
                 onChange={(event)=> updateWidget({
                     ...widget,
-                    title:event.target.value
+                    name:event.target.value
                 })}
                 value={widget.name}
                 className="form-control" />
             <br/>
             <h3>Preview</h3>
-            {widget.text}
+                <ul>{widget.text}</ul>
             </div>
         }
         {

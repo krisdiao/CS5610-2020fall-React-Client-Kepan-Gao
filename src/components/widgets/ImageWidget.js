@@ -47,13 +47,16 @@ const ImageWidget = ({
                 >
                     <i className="fa fa-arrow-down"></i>
                 </button>
-                <select className="form-control-sm">
-                    <option>Image</option>
-                    <option>Heading</option>
-                    <option>Paragraph</option>
-                    <option>List</option>
-                    <option>Hyperlink</option>
-                    <option>Video</option>
+                <select
+                    onChange={(event)=> updateWidget({
+                    ...widget,
+                    type:event.target.value})}
+                        value={widget.type}
+                        className="form-control-sm" >
+                    <option value="HEADING">Heading</option>
+                    <option value="PARAGRAPH">Paragraph</option>
+                    <option value="LIST">List</option>
+                    <option value="IMAGE">Image</option>
                 </select>
                 <button
                     className="btn btn-danger "
@@ -66,7 +69,7 @@ const ImageWidget = ({
             <input
                 onChange={(event)=> updateWidget({
                     ...widget,
-                    title:event.target.value
+                    url:event.target.value
                 })}
                 value={widget.url}
                 className="form-control">
@@ -75,7 +78,7 @@ const ImageWidget = ({
             <input
                 onChange={(event)=> updateWidget({
                     ...widget,
-                    title:event.target.value
+                    name:event.target.value
                 })}
                 value={widget.name}
                 className="form-control" />
